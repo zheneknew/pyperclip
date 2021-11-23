@@ -227,11 +227,11 @@ def init_xclip_clipboard():
     return copy_xclip, paste_xclip
 
 
-def init_xsel_clipboard():
+def init_xsel_clipboard(primary=False):
     DEFAULT_SELECTION='-b'
     PRIMARY_SELECTION='-p'
 
-    def copy_xsel(text, primary=False):
+    def copy_xsel(text, primary=primary):
         text = _stringifyText(text) # Converts non-str values to str.
         selection_flag = DEFAULT_SELECTION
         if primary:
@@ -240,7 +240,7 @@ def init_xsel_clipboard():
                              stdin=subprocess.PIPE, close_fds=True)
         p.communicate(input=text.encode(ENCODING))
 
-    def paste_xsel(primary=False):
+    def paste_xsel(primary=primary):
         selection_flag = DEFAULT_SELECTION
         if primary:
             selection_flag = PRIMARY_SELECTION
